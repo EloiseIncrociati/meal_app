@@ -1,11 +1,20 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
-import { useLinkBuilder, useTheme } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
+import { useLinkBuilder } from "@react-navigation/native";
 import { PlatformPressable } from "@react-navigation/elements";
 
-const TabBar = ({ state, descriptors, navigation }) => {
-  const primaryColor = "#a44cff"; //edit here to change color text navbar
+type TabBarProps = {
+  state: { index: number; routes: any[] };
+  descriptors: Record<string, any>;
+  navigation: ReturnType<typeof useNavigation>;
+};
+
+const TabBar = ({ state, descriptors, navigation }: TabBarProps) => {
+  //edit here to change color text navbar
+  const primaryColor = "#a44cff";
   const inactiveColor = "#4a5568";
+
   const { buildHref } = useLinkBuilder();
 
   return (
