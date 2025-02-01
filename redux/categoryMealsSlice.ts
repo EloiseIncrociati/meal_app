@@ -21,19 +21,19 @@ const initialState: MealsState = {
 };
 
 // Async thunk fetch datas by categories
-export const fetchMealsByCategory = createAsyncThunk<
-  Meal[],
-  string | undefined
->("meals/fetchMealsByCategory", async (category, { rejectWithValue }) => {
-  try {
-    const response = await axios.get(
-      `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
-    );
-    return response.data.meals;
-  } catch (error: any) {
-    return rejectWithValue(error.response?.data || "Erreur inconnue");
+export const fetchMealsByCategory = createAsyncThunk<Meal[], string>(
+  "meals/fetchMealsByCategory",
+  async (category, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
+      );
+      return response.data.meals || [];
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data || "Erreur inconnue");
+    }
   }
-});
+);
 
 //slice Redux
 const categoryMealsSlice = createSlice({
@@ -48,13 +48,13 @@ const categoryMealsSlice = createSlice({
         state.error = null;
       })
       //fetch succeed
-      .addCase(
-        fetchMealsByCategory.fulfilled,
-        (state, action: PayloadAction<Meal[]>) => {
-          state.loading = false;
-          state.meals = action.payload;
-        }
-      )
+      .addCase(fetchMealsByCategory.fulfilled, (state, action) => {
+        return {
+          ...state,
+          loading: false,
+          meals: action.payload || [],
+        };
+      })
       //fetch failed
       .addCase(fetchMealsByCategory.rejected, (state, action) => {
         state.loading = false;
