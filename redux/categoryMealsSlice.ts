@@ -26,10 +26,9 @@ export const fetchMealsByCategory = createAsyncThunk<
   string | undefined
 >("meals/fetchMealsByCategory", async (category, { rejectWithValue }) => {
   try {
-    const url = category
-      ? `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
-      : "https://www.themealdb.com/api/json/v1/1/search.php?s=";
-    const response = await axios.get(url);
+    const response = await axios.get(
+      `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
+    );
     return response.data.meals;
   } catch (error: any) {
     return rejectWithValue(error.response?.data || "Erreur inconnue");
@@ -37,8 +36,8 @@ export const fetchMealsByCategory = createAsyncThunk<
 });
 
 //slice Redux
-const mealsSlice = createSlice({
-  name: "meals",
+const categoryMealsSlice = createSlice({
+  name: "categoryMeals",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -64,4 +63,4 @@ const mealsSlice = createSlice({
   },
 });
 
-export default mealsSlice.reducer;
+export default categoryMealsSlice.reducer;

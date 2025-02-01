@@ -21,7 +21,7 @@ const _layout = () => {
         <Tabs.Screen
           name="favorites"
           options={{
-            title: "Favorites",
+            title: "Favoris",
             headerTitleAlign: "center",
             headerTintColor: primaryColor,
           }}
@@ -29,7 +29,7 @@ const _layout = () => {
         <Tabs.Screen
           name="category"
           options={{
-            title: "Category",
+            title: "Catégories",
             headerTitleAlign: "center",
             headerTintColor: primaryColor,
           }}

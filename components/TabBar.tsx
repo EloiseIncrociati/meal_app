@@ -14,6 +14,7 @@ const TabBar = ({ state, descriptors, navigation }: TabBarProps) => {
   //edit here to change color text navbar
   const primaryColor = "#a44cff";
   const inactiveColor = "#4a5568";
+  
 
   const { buildHref } = useLinkBuilder();
 
