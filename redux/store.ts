@@ -1,8 +1,9 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, UnknownAction } from "@reduxjs/toolkit";
 import allMealsReducer from "./allMealsSlice";
 import categoryMealsReducer from "./categoryMealsSlice";
 import categoryReducer from "./categorySlice";
 import detailMealSlice from "./detailMealSlice";
+import favoriteReducer from "./favoriteSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     categoryMeals: categoryMealsReducer,
     category: categoryReducer,
     mealDetail: detailMealSlice,
+    favorites: favoriteReducer,
   },
 });
 

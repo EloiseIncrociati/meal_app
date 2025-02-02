@@ -13,7 +13,7 @@ const MealCard = ({ meal }: MealCardProps) => {
   const router = useRouter();
 
   const handlePress = () => {
-    router.push(`/meal/${meal.idMeal}`); // ✅ Format correct
+    router.push(`/meal/${meal.idMeal}`); 
   };
 
   return (

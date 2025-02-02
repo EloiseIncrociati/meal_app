@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Tabs } from "expo-router";
 import TabBar from "@/components/TabBar";
 import { Provider } from "react-redux";

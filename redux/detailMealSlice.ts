@@ -54,10 +54,12 @@ const detailMealSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      //fetch pending
       .addCase(fetchMealDetail.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
+      //fetch succeed
       .addCase(
         fetchMealDetail.fulfilled,
         (state, action: PayloadAction<MealDetail>) => {
@@ -65,6 +67,7 @@ const detailMealSlice = createSlice({
           state.meal = action.payload;
         }
       )
+      //fetch failed
       .addCase(fetchMealDetail.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message ?? "Erreur inconnue";

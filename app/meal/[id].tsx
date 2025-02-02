@@ -5,6 +5,7 @@ import {
   ActivityIndicator,
   ScrollView,
   StyleSheet,
+  TouchableOpacity,
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect } from "react";
@@ -12,14 +13,45 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchMealDetail, resetMeal } from "@/redux/detailMealSlice";
 import { RootState, AppDispatch } from "@/redux/store";
 import React from "react";
+import {
+  addFavorite,
+  loadFavorites,
+  removeFavorite,
+} from "@/redux/favoriteSlice";
+import { FontAwesome } from "@expo/vector-icons";
 
 const MealDetailScreen = () => {
-  const { id } = useLocalSearchParams();
+  const { id } = useLocalSearchParams<{ id: string }>();
   const dispatch = useDispatch<AppDispatch>();
 
+  //get meal detail
   const { meal, loading, error } = useSelector(
     (state: RootState) => state.mealDetail
   );
+
+  //get favorites
+  const favorites = useSelector(
+    (state: RootState) => state.favorites?.favorites || []
+  );
+
+  //upload favorites
+  useEffect(() => {
+    dispatch(loadFavorites());
+  }, [dispatch]);
+  //is favorite ?
+  const isFavorite =
+    typeof id === "string" &&
+    favorites.some((fav: { idMeal: string }) => fav.idMeal === id);
+  //add or delete fav
+  const toggleFavorite = () => {
+    if (!meal || !meal.idMeal) return;
+
+    if (isFavorite) {
+      dispatch(removeFavorite(meal.idMeal));
+    } else {
+      dispatch(addFavorite(meal));
+    }
+  };
 
   useEffect(() => {
     if (typeof id === "string") {
@@ -48,6 +80,16 @@ const MealDetailScreen = () => {
       {meal && (
         <>
           <Image source={{ uri: meal.strMealThumb }} style={styles.image} />
+          {/* Bouton Favori ❤️ */}
+          <TouchableOpacity
+            style={styles.favoriteButton}
+            onPress={toggleFavorite}>
+            <FontAwesome
+              name="heart"
+              size={28}
+              color={isFavorite ? "red" : "gray"}
+            />
+          </TouchableOpacity>
           <Text style={styles.title}>{meal.strMeal}</Text>
           <Text style={styles.category}>Category: {meal.strCategory}</Text>
           <Text style={styles.area}>Origin: {meal.strArea}</Text>
@@ -101,7 +143,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: "justify",
     marginVertical: 10,
-    lineHeight: 20, // Amélioration de la lisibilité
+    lineHeight: 20,
+  },
+  favoriteButton: {
+    position: "absolute",
+    top: 15,
+    right: 20,
+    padding: 8,
+    backgroundColor: "rgba(255,255,255,0.8)",
+    borderRadius: 20,
   },
 });
 

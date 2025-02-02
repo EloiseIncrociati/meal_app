@@ -15,6 +15,7 @@ import { fetchMealsByCategory } from "@/redux/categoryMealsSlice";
 import { fetchCategories } from "@/redux/categorySlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import MealCard from "@/components/MealCard";
+import { loadFavorites } from "@/redux/favoriteSlice";
 
 const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -61,6 +62,11 @@ const Home = () => {
     },
     [dispatch]
   );
+
+  //upload favorites
+  useEffect(() => {
+    dispatch(loadFavorites());
+  }, [dispatch]);
 
   return (
     <View style={styles.container}>
