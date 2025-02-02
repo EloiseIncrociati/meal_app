@@ -17,12 +17,12 @@ const FavoritesScreen = () => {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
 
-  // Récupère les favoris du Redux store
+  //get favorites
   const favorites = useSelector(
     (state: RootState) => state.favorites?.favorites || []
   );
 
-  // Supprimer un favori
+  //delete favorites
   const handleRemoveFavorite = (idMeal: string) => {
     dispatch(removeFavorite(idMeal));
   };
