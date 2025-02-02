@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -27,11 +27,13 @@ const Home = () => {
     (state: RootState) => state.category.categories
   );
   const loading = useSelector((state: RootState) => state.allMeals.loading);
+  const categoriesLoading = useSelector(
+    (state: RootState) => state.category.loading
+  );
   const error = useSelector((state: RootState) => state.allMeals.error);
 
   //category filter
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [displayMeals, setDisplayMeals] = useState(allMeals);
   const [modalVisible, setModalVisible] = useState(false);
 
   //meals and categories fetching
@@ -40,25 +42,24 @@ const Home = () => {
     dispatch(fetchAllMeals());
   }, [dispatch]);
 
-  //update redux
-  useEffect(() => {
-    if (selectedCategory) {
-      setDisplayMeals(categoryMeals);
-    } else {
-      setDisplayMeals(allMeals);
-    }
+  //useMemo to avoid recalculation
+  const displayMeals = useMemo(() => {
+    return selectedCategory ? categoryMeals : allMeals;
   }, [selectedCategory, categoryMeals, allMeals]);
 
-  //update meals by category
-  const handleCategorySelect = (category: string) => {
-    setSelectedCategory(category);
-    setModalVisible(false);
-    if (category) {
-      dispatch(fetchMealsByCategory(category));
-    } else {
-      dispatch(fetchAllMeals());
-    }
-  };
+  //useCall back to avoid multiple creation function
+  const handleCategorySelect = useCallback(
+    (category: string) => {
+      setSelectedCategory(category);
+      setModalVisible(false);
+      if (category) {
+        dispatch(fetchMealsByCategory(category));
+      } else {
+        dispatch(fetchAllMeals());
+      }
+    },
+    [dispatch]
+  );
 
   return (
     <View style={styles.container}>
@@ -75,30 +76,34 @@ const Home = () => {
       <Modal animationType="slide" transparent={true} visible={modalVisible}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <FlatList
-              data={[
-                { idCategory: "0", strCategory: "All Categories" },
-                ...categories,
-              ]}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={[
-                    styles.categoryItem,
-                    item.strCategory === "All Categories" &&
-                      styles.allCategoriesItem,
-                  ]}
-                  onPress={() =>
-                    handleCategorySelect(
-                      item.strCategory === "All Categories"
-                        ? ""
-                        : item.strCategory
-                    )
-                  }>
-                  <Text style={styles.categoryText}>{item.strCategory}</Text>
-                </TouchableOpacity>
-              )}
-            />
-
+            {categoriesLoading ? (
+              <ActivityIndicator size="large" color="#a44cff" />
+            ) : (
+              <FlatList
+                data={[
+                  { idCategory: "0", strCategory: "All Categories" },
+                  ...categories,
+                ]}
+                keyExtractor={(item) => item.idCategory}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    style={[
+                      styles.categoryItem,
+                      item.strCategory === "All Categories" &&
+                        styles.allCategoriesItem,
+                    ]}
+                    onPress={() =>
+                      handleCategorySelect(
+                        item.strCategory === "All Categories"
+                          ? ""
+                          : item.strCategory
+                      )
+                    }>
+                    <Text style={styles.categoryText}>{item.strCategory}</Text>
+                  </TouchableOpacity>
+                )}
+              />
+            )}
             <Pressable
               style={styles.closeButton}
               onPress={() => setModalVisible(false)}>
@@ -121,6 +126,7 @@ const Home = () => {
             <Text style={styles.mealText}>{item.strMeal}</Text>
           </TouchableOpacity>
         )}
+        initialNumToRender={10}
       />
     </View>
   );
@@ -164,6 +170,9 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
   },
+  allCategoriesItem: {
+    backgroundColor: "#f8d7ff",
+  },
   categoryText: {
     fontSize: 16,
     fontWeight: "bold",
@@ -193,9 +202,6 @@ const styles = StyleSheet.create({
   mealText: {
     fontSize: 16,
     fontWeight: "bold",
-  },
-  allCategoriesItem: {
-    backgroundColor: "#f8d7ff",
   },
 });
 
