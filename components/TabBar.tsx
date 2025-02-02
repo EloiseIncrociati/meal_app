@@ -29,7 +29,15 @@ const TabBar = ({ state, descriptors, navigation }: TabBarProps) => {
             ? options.title
             : route.name;
 
-        if (["_sitemap", "+not-found", "screens/Home"].includes(route.name))
+        if (
+          [
+            "_sitemap",
+            "+not-found",
+            "screens/Home",
+            "screens/Favorites",
+            "meal/[id]",
+          ].includes(route.name)
+        )
           return null;
 
         const isFocused = state.index === index;

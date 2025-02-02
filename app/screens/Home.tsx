@@ -14,6 +14,7 @@ import { fetchAllMeals } from "@/redux/allMealsSlice";
 import { fetchMealsByCategory } from "@/redux/categoryMealsSlice";
 import { fetchCategories } from "@/redux/categorySlice";
 import { AppDispatch, RootState } from "@/redux/store";
+import MealCard from "@/components/MealCard";
 
 const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -118,15 +119,18 @@ const Home = () => {
       {error && <Text style={styles.error}>{error}</Text>}
 
       <FlatList
-        key={displayMeals.length} // update meals if change
+        key={"grid"} // re render
         data={displayMeals}
         keyExtractor={(item) => item.idMeal}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.mealCard}>
-            <Text style={styles.mealText}>{item.strMeal}</Text>
-          </TouchableOpacity>
+          <MealCard
+            meal={item}
+            onPress={() => console.log("Meal sélectionné:", item.strMeal)}
+          />
         )}
-        initialNumToRender={10}
+        numColumns={2}
+        columnWrapperStyle={styles.row}
+        contentContainerStyle={{ paddingBottom: 80 }}
       />
     </View>
   );
@@ -137,6 +141,9 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     backgroundColor: "#fff",
+  },
+  row: {
+    justifyContent: "space-between",
   },
   dropdownButton: {
     padding: 15,
