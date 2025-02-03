@@ -128,7 +128,7 @@ const Home = () => {
         </Modal>
 
         {/* meals */}
-        {loading && <ActivityIndicator size="large" color="#a44cff" />}
+        {loading && <ActivityIndicator size="large" color="#8440c9" />}
         {error && <Text style={styles.error}>{error}</Text>}
 
         <FlatList
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
   },
   dropdownButton: {
     padding: 15,
-    backgroundColor: "#a44cff",
+    backgroundColor: "#8440c9",
     borderRadius: 10,
     alignItems: "center",
     marginBottom: 10,
@@ -192,15 +192,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   allCategoriesItem: {
-    backgroundColor: "#f8d7ff",
+    backgroundColor: "#f6f2fa",
   },
   categoryText: {
     fontSize: 16,
     fontWeight: "bold",
+    color: "#8440c9",
   },
   closeButton: {
     marginTop: 20,
-    backgroundColor: "#a44cff",
+    backgroundColor: "#8440c9",
     padding: 10,
     borderRadius: 5,
   },

@@ -20,6 +20,12 @@ import {
   removeFavorite,
 } from "@/redux/favoriteSlice";
 import { FontAwesome } from "@expo/vector-icons";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  withTiming,
+} from "react-native-reanimated";
 
 const MealDetailScreen = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -35,6 +41,18 @@ const MealDetailScreen = () => {
     (state: RootState) => state.favorites?.favorites || []
   );
 
+  //heart animation
+  const scale = useSharedValue(1);
+  const brokenHeartOpacity = useSharedValue(0);
+  const brokenHeartScale = useSharedValue(1.5);
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
+  const brokenHeartStyle = useAnimatedStyle(() => ({
+    opacity: brokenHeartOpacity.value,
+    transform: [{ scale: brokenHeartScale.value }],
+  }));
+
   //upload favorites
   useEffect(() => {
     dispatch(loadFavorites());
@@ -45,12 +63,24 @@ const MealDetailScreen = () => {
     favorites.some((fav: { idMeal: string }) => fav.idMeal === id);
   //add or delete fav
   const toggleFavorite = () => {
-    if (!meal || !meal.idMeal) return;
+    if (meal && meal.idMeal) {
+      if (isFavorite) {
+        //animation broken heart
+        brokenHeartOpacity.value = 1;
+        brokenHeartScale.value = 1.5;
 
-    if (isFavorite) {
-      dispatch(removeFavorite(meal.idMeal));
-    } else {
-      dispatch(addFavorite(meal));
+        brokenHeartOpacity.value = withTiming(0, { duration: 400 });
+        brokenHeartScale.value = withTiming(1, { duration: 400 });
+
+        dispatch(removeFavorite(meal.idMeal));
+      } else {
+        //animation beating heart
+        scale.value = withSpring(1.5, { damping: 2 }, () => {
+          scale.value = withSpring(1);
+        });
+
+        dispatch(addFavorite(meal));
+      }
     }
   };
 
@@ -89,11 +119,13 @@ const MealDetailScreen = () => {
             <TouchableOpacity
               style={styles.favoriteButton}
               onPress={toggleFavorite}>
-              <FontAwesome
-                name="heart"
-                size={28}
-                color={isFavorite ? "red" : "gray"}
-              />
+              <Animated.View style={[animatedStyle]}>
+                <FontAwesome
+                  name="heart"
+                  size={28}
+                  color={isFavorite ? "red" : "gray"}
+                />
+              </Animated.View>
             </TouchableOpacity>
             <Text style={styles.title}>{meal.strMeal}</Text>
             <Text style={styles.category}>Category: {meal.strCategory}</Text>
@@ -130,18 +162,19 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
     textAlign: "center",
+    color: "#f9f9f9",
     marginVertical: 10,
   },
   category: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#a44cff",
+    color: "#1f0d30",
     textAlign: "center",
   },
   area: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#555",
+    color: "#bdbbbb",
     textAlign: "center",
     marginBottom: 10,
   },
@@ -150,6 +183,7 @@ const styles = StyleSheet.create({
     textAlign: "justify",
     marginVertical: 10,
     lineHeight: 20,
+    color: "#f9f9f9",
   },
   favoriteButton: {
     position: "absolute",
