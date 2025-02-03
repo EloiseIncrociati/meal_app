@@ -26,7 +26,7 @@ MealApp est une application mobile développée avec React Native et Expo, perme
 
    - Lancer l'application
       npx expo start
-      Sur Android : Scanner le QR Code avec Expo Go 🌟
+      Sur Android : Scanner le QR Code avec Expo Go
       Sur iOS : Utiliser le simulateur ou Expo Go
 
 # Technologies utilisées
