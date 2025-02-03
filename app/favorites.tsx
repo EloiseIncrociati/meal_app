@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import LottieView from "lottie-react-native";
+import { useRef } from "react";
 import {
   View,
   Text,
@@ -7,6 +9,7 @@ import {
   Image,
   StyleSheet,
   ImageBackground,
+  Modal,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "@/redux/store";
@@ -24,8 +27,18 @@ const FavoritesScreen = () => {
   );
 
   //delete favorites
+  const trashAnimationRef = useRef<LottieView>(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [showTrashAnimation, setShowTrashAnimation] = useState(false);
   const handleRemoveFavorite = (idMeal: string) => {
-    dispatch(removeFavorite(idMeal));
+    setIsModalVisible(true);
+    setShowTrashAnimation(true);
+    trashAnimationRef.current?.play();
+    setTimeout(() => {
+      dispatch(removeFavorite(idMeal));
+      setShowTrashAnimation(false);
+      setIsModalVisible(false);
+    }, 3000);
   };
 
   return (
@@ -34,8 +47,36 @@ const FavoritesScreen = () => {
       style={styles.background}
       resizeMode="cover">
       <View style={styles.container}>
-        <Text style={styles.title}>Your Favorite Meals</Text>
-
+        <View style={styles.animationContainer}>
+          <LottieView
+            source={require("../assets/animation/love.json")}
+            autoPlay
+            loop
+            style={styles.animation}
+          />
+        </View>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={isModalVisible}
+          onRequestClose={() => setIsModalVisible(false)}>
+          <View style={styles.modalBackground}>
+            <View style={styles.modalContainer}>
+              {showTrashAnimation && (
+                <LottieView
+                  ref={trashAnimationRef}
+                  source={require("../assets/animation/trash.json")}
+                  autoPlay={true}
+                  loop={false}
+                  style={{
+                    width: 150,
+                    height: 150,
+                  }}
+                />
+              )}
+            </View>
+          </View>
+        </Modal>
         {favorites.length === 0 ? (
           <Text style={styles.emptyText}>No favorites added yet.</Text>
         ) : (
@@ -124,6 +165,32 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.4)", // Effet sombre sur l'image
     justifyContent: "center",
     alignItems: "center",
+  },
+  animationContainer: {
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  animation: {
+    width: 150,
+    height: 150,
+  },
+  modalBackground: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContainer: {
+    width: 200,
+    height: 200,
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
   },
 });
 
