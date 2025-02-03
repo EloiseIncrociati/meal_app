@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 10 },
     shadowRadius: 10,
     shadowOpacity: 0.1,
+    elevation: 5, //Android
   },
   tabbarItem: {
     flex: 1,

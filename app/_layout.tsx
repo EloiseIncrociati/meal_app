@@ -25,6 +25,14 @@ const _layout = () => {
             headerTintColor: "#a44cff",
           }}
         />
+        <Tabs.Screen
+          name="meal/[id]"
+          options={{
+            title: "Meal Detail",
+            headerTitleAlign: "center",
+            headerTintColor: "#a44cff",
+          }}
+        />
       </Tabs>
     </Provider>
   );

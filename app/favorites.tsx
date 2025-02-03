@@ -92,7 +92,12 @@ const FavoritesScreen = () => {
                   style={styles.image}
                 />
                 <View style={styles.infoContainer}>
-                  <Text style={styles.mealName}>{item.strMeal}</Text>
+                  <Text
+                    style={styles.mealName}
+                    numberOfLines={1}
+                    ellipsizeMode="tail">
+                    {item.strMeal}
+                  </Text>
                   <TouchableOpacity
                     onPress={() => handleRemoveFavorite(item.idMeal)}>
                     <FontAwesome name="trash" size={24} color="red" />
@@ -100,6 +105,7 @@ const FavoritesScreen = () => {
                 </View>
               </TouchableOpacity>
             )}
+            contentContainerStyle={{ paddingBottom: 80 }}
           />
         )}
       </View>
@@ -154,6 +160,9 @@ const styles = StyleSheet.create({
   mealName: {
     fontSize: 16,
     fontWeight: "bold",
+    textAlign: "center",
+    paddingHorizontal: 10,
+    maxWidth: "85%",
   },
   background: {
     flex: 1,
