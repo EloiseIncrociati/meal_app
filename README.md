@@ -31,27 +31,27 @@ MealApp est une application mobile développée avec React Native et Expo, perme
 
 # Technologies utilisées
 
-React Native	Framework pour le développement mobile
-Expo	Outils pour simplifier le développement RN
-Expo Router pour le routing de l'application
-Redux Toolkit	Gestion de l'état global
-Axios	Requêtes API vers TheMealDB
-React Native Reanimated	Animations performantes
-Lottie	Animations dynamiques
+- React Native	Framework pour le développement mobile
+- Expo	Outils pour simplifier le développement RN
+- Expo Router pour le routing de l'application
+- Redux Toolkit	Gestion de l'état global
+- Axios	Requêtes API vers TheMealDB
+- React Native Reanimated	Animations performantes
+- Lottie	Animations dynamiques
 
 # Parcours de développement : 
 
-J'ai eu dans l'idée d'utiliser l'API open-source TheMealDb pour créer une application de recettes avec React Native et Expo en anglais. 
+ * J'ai eu dans l'idée d'utiliser l'API open-source TheMealDb pour créer une application de recettes avec React Native et Expo en anglais. 
 L'objectif principal était d'afficher une liste de plats, de permettre aux utilisateurs de consulter les détails d'un plat et d'ajouter/supprimer des plats en favoris.
 
-Framework: React Native avec Expo 
-State Management: Redux Toolkit + AsyncStorage
-HTTP Requests: Axios
-Animations: Lottie, React Native Reanimated
-Navigation: Expo Router avec un composant TabBar
-UI & UX: Styles personnalisés, FlatList optimisée, Background Image créée avec Photoshop CS 6
-Suivi du développement : GitHub
-Documentation : le présent document
+- Framework: React Native avec Expo 
+- State Management: Redux Toolkit + AsyncStorage
+- HTTP Requests: Axios
+- Animations: Lottie, React Native Reanimated
+- Navigation: Expo Router avec un composant TabBar
+- UI & UX: Styles personnalisés, FlatList optimisée, Background Image créée avec Photoshop CS 6
+- Suivi du développement : GitHub
+- Documentation : le présent document
 
 L'application reprend les consignes suivantes : 
    - Est basée sur une API open source de mon choix
