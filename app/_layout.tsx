@@ -1,12 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Tabs } from "expo-router";
 import TabBar from "@/components/TabBar";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store";
+import { StyleSheet } from "react-native";
 
 const _layout = () => {
-  const primaryColor = "#a44cff";
-
   return (
     <Provider store={store}>
       <Tabs tabBar={(props) => <TabBar {...props} />}>
@@ -15,7 +14,7 @@ const _layout = () => {
           options={{
             title: "Home",
             headerTitleAlign: "center",
-            headerTintColor: primaryColor,
+            headerTintColor: "#a44cff",
           }}
         />
         <Tabs.Screen
@@ -23,7 +22,7 @@ const _layout = () => {
           options={{
             title: "Favorites",
             headerTitleAlign: "center",
-            headerTintColor: primaryColor,
+            headerTintColor: "#a44cff",
           }}
         />
       </Tabs>

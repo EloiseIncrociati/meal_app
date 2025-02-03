@@ -8,6 +8,7 @@ import {
   Modal,
   StyleSheet,
   Pressable,
+  ImageBackground,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllMeals } from "@/redux/allMealsSlice";
@@ -69,76 +70,83 @@ const Home = () => {
   }, [dispatch]);
 
   return (
-    <View style={styles.container}>
-      {/* button filter category */}
-      <TouchableOpacity
-        style={styles.dropdownButton}
-        onPress={() => setModalVisible(true)}>
-        <Text style={styles.dropdownButtonText}>
-          {selectedCategory ? selectedCategory : "All Categories"}
-        </Text>
-      </TouchableOpacity>
+    <ImageBackground
+      source={require("../../assets/images/background.png")}
+      style={styles.background}
+      resizeMode="cover">
+      <View style={styles.container}>
+        {/* button filter category */}
+        <TouchableOpacity
+          style={styles.dropdownButton}
+          onPress={() => setModalVisible(true)}>
+          <Text style={styles.dropdownButtonText}>
+            {selectedCategory ? selectedCategory : "All Categories"}
+          </Text>
+        </TouchableOpacity>
 
-      {/* modal filter category */}
-      <Modal animationType="slide" transparent={true} visible={modalVisible}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            {categoriesLoading ? (
-              <ActivityIndicator size="large" color="#a44cff" />
-            ) : (
-              <FlatList
-                data={[
-                  { idCategory: "0", strCategory: "All Categories" },
-                  ...categories,
-                ]}
-                keyExtractor={(item) => item.idCategory}
-                renderItem={({ item }) => (
-                  <TouchableOpacity
-                    style={[
-                      styles.categoryItem,
-                      item.strCategory === "All Categories" &&
-                        styles.allCategoriesItem,
-                    ]}
-                    onPress={() =>
-                      handleCategorySelect(
-                        item.strCategory === "All Categories"
-                          ? ""
-                          : item.strCategory
-                      )
-                    }>
-                    <Text style={styles.categoryText}>{item.strCategory}</Text>
-                  </TouchableOpacity>
-                )}
-              />
-            )}
-            <Pressable
-              style={styles.closeButton}
-              onPress={() => setModalVisible(false)}>
-              <Text style={styles.closeButtonText}>Fermer</Text>
-            </Pressable>
+        {/* modal filter category */}
+        <Modal animationType="slide" transparent={true} visible={modalVisible}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              {categoriesLoading ? (
+                <ActivityIndicator size="large" color="#a44cff" />
+              ) : (
+                <FlatList
+                  data={[
+                    { idCategory: "0", strCategory: "All Categories" },
+                    ...categories,
+                  ]}
+                  keyExtractor={(item) => item.idCategory}
+                  renderItem={({ item }) => (
+                    <TouchableOpacity
+                      style={[
+                        styles.categoryItem,
+                        item.strCategory === "All Categories" &&
+                          styles.allCategoriesItem,
+                      ]}
+                      onPress={() =>
+                        handleCategorySelect(
+                          item.strCategory === "All Categories"
+                            ? ""
+                            : item.strCategory
+                        )
+                      }>
+                      <Text style={styles.categoryText}>
+                        {item.strCategory}
+                      </Text>
+                    </TouchableOpacity>
+                  )}
+                />
+              )}
+              <Pressable
+                style={styles.closeButton}
+                onPress={() => setModalVisible(false)}>
+                <Text style={styles.closeButtonText}>Fermer</Text>
+              </Pressable>
+            </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
 
-      {/* meals */}
-      {loading && <ActivityIndicator size="large" color="#a44cff" />}
-      {error && <Text style={styles.error}>{error}</Text>}
+        {/* meals */}
+        {loading && <ActivityIndicator size="large" color="#a44cff" />}
+        {error && <Text style={styles.error}>{error}</Text>}
 
-      <FlatList
-        key={"grid"} // re render
-        data={displayMeals}
-        keyExtractor={(item) => item.idMeal}
-        renderItem={({ item }) => (
-          <MealCard
-            meal={item}
-            onPress={() => console.log("Meal sélectionné:", item.strMeal)}
-          />
-        )}
-        numColumns={2}
-        columnWrapperStyle={styles.row}
-        contentContainerStyle={{ paddingBottom: 80 }}
-      />
-    </View>
+        <FlatList
+          key={"grid"} // re render
+          data={displayMeals}
+          keyExtractor={(item) => item.idMeal}
+          renderItem={({ item }) => (
+            <MealCard
+              meal={item}
+              onPress={() => console.log("Meal sélectionné:", item.strMeal)}
+            />
+          )}
+          numColumns={2}
+          columnWrapperStyle={styles.row}
+          contentContainerStyle={{ paddingBottom: 80 }}
+        />
+      </View>
+    </ImageBackground>
   );
 };
 
@@ -146,7 +154,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    backgroundColor: "#fff",
+    backgroundColor: "transparent",
   },
   row: {
     justifyContent: "space-between",
@@ -207,7 +215,7 @@ const styles = StyleSheet.create({
   },
   mealCard: {
     padding: 15,
-    backgroundColor: "#f3f3f3",
+    backgroundColor: "transparent",
     marginVertical: 5,
     borderRadius: 10,
     alignItems: "center",
@@ -215,6 +223,17 @@ const styles = StyleSheet.create({
   mealText: {
     fontSize: 16,
     fontWeight: "bold",
+  },
+  background: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+  },
+  overlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.4)", // Effet sombre sur l'image
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

@@ -6,6 +6,7 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  ImageBackground,
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect } from "react";
@@ -74,29 +75,34 @@ const MealDetailScreen = () => {
   }
 
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={{ paddingBottom: 80 }}>
-      {meal && (
-        <>
-          <Image source={{ uri: meal.strMealThumb }} style={styles.image} />
-          {/* Bouton Favori ❤️ */}
-          <TouchableOpacity
-            style={styles.favoriteButton}
-            onPress={toggleFavorite}>
-            <FontAwesome
-              name="heart"
-              size={28}
-              color={isFavorite ? "red" : "gray"}
-            />
-          </TouchableOpacity>
-          <Text style={styles.title}>{meal.strMeal}</Text>
-          <Text style={styles.category}>Category: {meal.strCategory}</Text>
-          <Text style={styles.area}>Origin: {meal.strArea}</Text>
-          <Text style={styles.instructions}>{meal.strInstructions}</Text>
-        </>
-      )}
-    </ScrollView>
+    <ImageBackground
+      source={require("../../assets/images/background.png")}
+      style={styles.background}
+      resizeMode="cover">
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={{ paddingBottom: 80 }}>
+        {meal && (
+          <>
+            <Image source={{ uri: meal.strMealThumb }} style={styles.image} />
+            {/* Bouton Favori  */}
+            <TouchableOpacity
+              style={styles.favoriteButton}
+              onPress={toggleFavorite}>
+              <FontAwesome
+                name="heart"
+                size={28}
+                color={isFavorite ? "red" : "gray"}
+              />
+            </TouchableOpacity>
+            <Text style={styles.title}>{meal.strMeal}</Text>
+            <Text style={styles.category}>Category: {meal.strCategory}</Text>
+            <Text style={styles.area}>Origin: {meal.strArea}</Text>
+            <Text style={styles.instructions}>{meal.strInstructions}</Text>
+          </>
+        )}
+      </ScrollView>
+    </ImageBackground>
   );
 };
 
@@ -104,7 +110,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: "#fff",
+    backgroundColor: "transparent",
   },
   loader: {
     flex: 1,
@@ -152,6 +158,17 @@ const styles = StyleSheet.create({
     padding: 8,
     backgroundColor: "rgba(255,255,255,0.8)",
     borderRadius: 20,
+  },
+  background: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+  },
+  overlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.4)", // Effet sombre sur l'image
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
