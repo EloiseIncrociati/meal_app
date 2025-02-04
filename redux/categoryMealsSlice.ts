@@ -25,6 +25,7 @@ export const fetchMealsByCategory = createAsyncThunk<Meal[], string>(
   "meals/fetchMealsByCategory",
   async (category, { rejectWithValue }) => {
     try {
+      //get method + response
       const response = await axios.get(
         `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
       );

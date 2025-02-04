@@ -6,6 +6,7 @@ import { store } from "@/redux/store";
 import { StyleSheet } from "react-native";
 
 const _layout = () => {
+  //pages
   return (
     <Provider store={store}>
       <Tabs tabBar={(props) => <TabBar {...props} />}>

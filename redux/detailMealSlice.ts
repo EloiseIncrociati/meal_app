@@ -31,10 +31,11 @@ export const fetchMealDetail = createAsyncThunk<MealDetail, string>(
   "meal/fetchMealDetail",
   async (mealId, { rejectWithValue }) => {
     try {
+      //get method
       const response = await axios.get(
         `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`
       );
-      return response.data.meals[0]; //first result
+      return response.data.meals[0]; //keep first result
     } catch (error: any) {
       return rejectWithValue(error.response?.data || "Une erreur est survenue");
     }

@@ -14,8 +14,6 @@ const TabBar = ({ state, descriptors, navigation }: TabBarProps) => {
   //edit here to change color text navbar
   const primaryColor = "#a44cff";
   const inactiveColor = "#4a5568";
-  
-
   const { buildHref } = useLinkBuilder();
 
   return (
@@ -28,7 +26,7 @@ const TabBar = ({ state, descriptors, navigation }: TabBarProps) => {
             : options.title !== undefined
             ? options.title
             : route.name;
-
+        //exclude from tab bar
         if (
           [
             "_sitemap",
@@ -39,16 +37,16 @@ const TabBar = ({ state, descriptors, navigation }: TabBarProps) => {
           ].includes(route.name)
         )
           return null;
-
+        //change color if focused
         const isFocused = state.index === index;
-
+        //navigation to page
         const onPress = () => {
           const event = navigation.emit({
             type: "tabPress",
             target: route.key,
             canPreventDefault: true,
           });
-
+          //grey title if not focused
           if (!isFocused && !event.defaultPrevented) {
             navigation.navigate(route.name, route.params);
           }
@@ -97,7 +95,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 10 },
     shadowRadius: 10,
     shadowOpacity: 0.1,
-    elevation: 5, //Android
+    elevation: 5, //Android shadow
   },
   tabbarItem: {
     flex: 1,

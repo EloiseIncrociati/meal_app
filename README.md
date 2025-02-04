@@ -18,11 +18,11 @@ MealApp est une application mobile développée avec React Native et Expo, perme
    Un émulateur Android/iOS ou un téléphone avec Expo Go.
 
    - Cloner le projet
-      git clone https://github.com/EloiseIncrociati/meal_app.git
-      cd meal_app
+      - git clone https://github.com/EloiseIncrociati/meal_app.git
+      - cd meal_app
 
    - Installer les dépendances
-      npm install
+      - npm install
 
    - Lancer l'application
       npx expo start

@@ -26,7 +26,7 @@ const FavoritesScreen = () => {
     (state: RootState) => state.favorites?.favorites || []
   );
 
-  //delete favorites
+  //delete favorites + animations
   const trashAnimationRef = useRef<LottieView>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [showTrashAnimation, setShowTrashAnimation] = useState(false);
@@ -47,6 +47,7 @@ const FavoritesScreen = () => {
       style={styles.background}
       resizeMode="cover">
       <View style={styles.container}>
+        {/*Animation doggy love*/}
         <View style={styles.animationContainer}>
           <LottieView
             source={require("../assets/animation/love.json")}
@@ -55,6 +56,7 @@ const FavoritesScreen = () => {
             style={styles.animation}
           />
         </View>
+        {/*Modal delete Fav*/}
         <Modal
           animationType="fade"
           transparent={true}
@@ -77,6 +79,7 @@ const FavoritesScreen = () => {
             </View>
           </View>
         </Modal>
+        {/*Fav meals*/}
         {favorites.length === 0 ? (
           <Text style={styles.emptyText}>No favorites added yet.</Text>
         ) : (
@@ -171,7 +174,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.4)", // Effet sombre sur l'image
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
     justifyContent: "center",
     alignItems: "center",
   },

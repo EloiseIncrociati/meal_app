@@ -26,9 +26,11 @@ const Home = () => {
   const categoryMeals = useSelector(
     (state: RootState) => state.categoryMeals.meals
   );
+  //fetch category
   const categories = useSelector(
     (state: RootState) => state.category.categories
   );
+  //fetching loading
   const loading = useSelector((state: RootState) => state.allMeals.loading);
   const categoriesLoading = useSelector(
     (state: RootState) => state.category.loading
@@ -130,9 +132,9 @@ const Home = () => {
         {/* meals */}
         {loading && <ActivityIndicator size="large" color="#8440c9" />}
         {error && <Text style={styles.error}>{error}</Text>}
-
+        {/* List of Meals Cards */}
         <FlatList
-          key={"grid"} // re render
+          key={"grid"}
           data={displayMeals}
           keyExtractor={(item) => item.idMeal}
           renderItem={({ item }) => (
@@ -149,7 +151,7 @@ const Home = () => {
     </ImageBackground>
   );
 };
-
+//Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,

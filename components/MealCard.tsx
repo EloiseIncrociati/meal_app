@@ -11,9 +11,9 @@ interface MealCardProps {
 
 const MealCard = ({ meal }: MealCardProps) => {
   const router = useRouter();
-
+  //nav to meal details
   const handlePress = () => {
-    router.push(`/meal/${meal.idMeal}`); 
+    router.push(`/meal/${meal.idMeal}`);
   };
 
   return (

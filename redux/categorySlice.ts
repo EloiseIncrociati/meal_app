@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
+
 //type category
 interface Category {
   idCategory: string;
@@ -23,6 +24,7 @@ export const fetchCategories = createAsyncThunk<Category[]>(
   "categories/fetchCategories",
   async (_, { rejectWithValue }) => {
     try {
+      //get method + response
       const response = await axios.get(
         "https://www.themealdb.com/api/json/v1/1/categories.php"
       );

@@ -43,35 +43,24 @@ const MealDetailScreen = () => {
 
   //heart animation
   const scale = useSharedValue(1);
-  const brokenHeartOpacity = useSharedValue(0);
-  const brokenHeartScale = useSharedValue(1.5);
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
-  }));
-  const brokenHeartStyle = useAnimatedStyle(() => ({
-    opacity: brokenHeartOpacity.value,
-    transform: [{ scale: brokenHeartScale.value }],
   }));
 
   //upload favorites
   useEffect(() => {
     dispatch(loadFavorites());
   }, [dispatch]);
+
   //is favorite ?
   const isFavorite =
     typeof id === "string" &&
     favorites.some((fav: { idMeal: string }) => fav.idMeal === id);
+
   //add or delete fav
   const toggleFavorite = () => {
     if (meal && meal.idMeal) {
       if (isFavorite) {
-        //animation broken heart
-        brokenHeartOpacity.value = 1;
-        brokenHeartScale.value = 1.5;
-
-        brokenHeartOpacity.value = withTiming(0, { duration: 400 });
-        brokenHeartScale.value = withTiming(1, { duration: 400 });
-
         dispatch(removeFavorite(meal.idMeal));
       } else {
         //animation beating heart
@@ -84,6 +73,7 @@ const MealDetailScreen = () => {
     }
   };
 
+  //mount/dismount
   useEffect(() => {
     if (typeof id === "string") {
       dispatch(fetchMealDetail(id));
@@ -94,6 +84,7 @@ const MealDetailScreen = () => {
     };
   }, [id, dispatch]);
 
+  //loading
   if (loading) {
     return (
       <ActivityIndicator size="large" color="#a44cff" style={styles.loader} />
@@ -115,7 +106,7 @@ const MealDetailScreen = () => {
         {meal && (
           <>
             <Image source={{ uri: meal.strMealThumb }} style={styles.image} />
-            {/* Bouton Favori  */}
+            {/*Fav button*/}
             <TouchableOpacity
               style={styles.favoriteButton}
               onPress={toggleFavorite}>
@@ -127,6 +118,7 @@ const MealDetailScreen = () => {
                 />
               </Animated.View>
             </TouchableOpacity>
+            {/*Data API*/}
             <Text style={styles.title}>{meal.strMeal}</Text>
             <Text style={styles.category}>Category: {meal.strCategory}</Text>
             <Text style={styles.area}>Origin: {meal.strArea}</Text>
@@ -200,7 +192,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.4)", // Effet sombre sur l'image
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
     justifyContent: "center",
     alignItems: "center",
   },

@@ -26,23 +26,24 @@ export const fetchAllMeals = createAsyncThunk<Meal[]>(
   "allMeals/fetchAllMeals",
   async (_, { rejectWithValue }) => {
     try {
+      //get method
       const categoriesRes = await axios.get(
         "https://www.themealdb.com/api/json/v1/1/categories.php"
       );
-
+      //response
       const categories = categoriesRes.data.categories.map(
         (cat: { strCategory: string }) => cat.strCategory
       );
 
       let allMeals: Meal[] = [];
-
+      //get meals for each category
       for (const category of categories) {
         const response = await axios.get(
           `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
         );
         allMeals = [...allMeals, ...response.data.meals];
       }
-
+      //return datas
       return allMeals;
     } catch (error: any) {
       return rejectWithValue(error.response?.data || "Erreur inconnue");
